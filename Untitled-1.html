@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" dir="trl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Drive Auto BOUTIQUE</title>
+    <img src="" alt="">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            padding-bottom: 50px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            gap: 200px;
+            background-color: #000000;
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .controls-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+
+            min-width: 280px;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: #fff;
+            border: 2px solid #1a1a2e;
+            color: #1a1a2e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: #e94560;
+            border-color: #e94560;
+            color: #fff;
+        }
+
+        .cars-grid {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .car-card {
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            background-color: #eee;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+
+        .car-details {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .car-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e94560;
+            margin-bottom: 15px;
+        }
+
+        .view-btn {
+            width: 100%;
+            background-color: #1a1a2e;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .view-btn:hover {
+            background-color: #e94560;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .modal h2 {
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+
+        .modal p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .buy-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6bSytO_Yf_j55Ai_macM2c9Foy6pthp4iPgYpjY8oLA&s=10"
+                alt="Logo" class="logo-img">
+        </div>
+        <div>
+            <h1>Drive Auto BOUTIQUE</h1>
+            <p> Used car dealer in Union, New Jersey </p>
+        </div>
+    </header>
+
+    <div class="controls-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search with car name or model">
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterCars('all', event)">ALL</button>
+            <button class="filter-btn" onclick="filterCars('TOYOTA', event)">TOYOTA</button>
+            <button class="filter-btn" onclick="filterCars('HONDA', event)">HONDA</button>
+            <button class="filter-btn" onclick="filterCars('HYUNDAI', event)"> HYUNDAI </button>
+            <button class="filter-btn" onclick="filterCars('MAZDA', event)">MAZDA</button>
+            <button class="filter-btn" onclick="filterCars('NISSAN', event)">NISSAN</button>
+            <button class="filter-btn" onclick="filterCars('JEEP', event)">JEEP</button>
+            <button class="filter-btn" onclick="filterCars('KIA', event)">KIA</button>
+            <button class="filter-btn" onclick="filterCars('CHEVROLET', event)">CHEVROLET</button>
+        </div>
+    </div>
+
+    <div class="cars-grid" id="carsGrid"></div>
+
+    <div class="modal" id="carModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"> Car Name</h2>
+            <p id="modalYear"></p>
+            <p id="modalSpecs"></p>
+            <p id="modalPrice" style="font-size: 24px; color: #e94560; font-weight: bold;"></p>
+            <button class="buy-btn" onclick="alert('The sales team Phone Number :  908 964 5000')">Contact
+                Sales</button>
+        </div>
+    </div>
+
+    <script>
+
+        const carsData = [
+            { id: 1, brand: 'TOYOTA', model: 'TOYOTA C-HR ', year: 2021, price: 18925, specs: 'Color : Gray , Miles : 38,664', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU3mojvVOmp9UKQ5e6eks8qeVAmfuLSfU3cOfnZi0kIDdgRsROj_j91d5rmS4NHs2MUXyaGMp9lE_hJ31lvCjj0yTS_ADJ59cmsQ4zbg&s=10' },
+            { id: 2, brand: 'TOYOTA', model: 'TOYOTA RAV4 ', year: 2021, price: 24365, specs: 'Color : Silver , Miles : 77,215', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYq7-jF4TwIyWLnD66HUY-wlYMCQ0hw99PHEVGV0hojQBn-U7bq49wpHkZHPBurUUxfw6sytCYjDFi8RhJAVo44Sp2f4bp-urJ8dlzZQ&s=10' },
+            { id: 3, brand: 'TOYOTA', model: 'TOYOTA COROLLA ', year: 2024, price: 16670, specs: 'Color : Black , Miles : 58,831', image: 'https://images.unsplash.com/photo-1626072557464-90403d788e8d?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D' },
+            { id: 4, brand: 'CHEVROLET', model: 'CHEVROLET EQUINOX ', year: 2023, price: 14395, specs: 'Color : Blue , Miles : 79,870', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDxlpIj4q852Hx1cF1kIRwfrq2ARscUmU0IawFyW77XXkVwh0cQqLalHZ6xsjNMIMJOhETu1Rm0_RcuKL9fM3G0k6Rl_LJekej4ip0hfc&s=10' },
+            { id: 5, brand: 'CHEVROLET', model: 'CHEVROLET EQUINOX ', year: 2022, price: 16775, specs: 'Color : Black , Miles : 112,314', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDxlpIj4q852Hx1cF1kIRwfrq2ARscUmU0IawFyW77XXkVwh0cQqLalHZ6xsjNMIMJOhETu1Rm0_RcuKL9fM3G0k6Rl_LJekej4ip0hfc&s=10' },
+            { id: 6, brand: 'HONDA', model: 'HONDA ACCORD', year: 2021, price: 19300, specs: 'Color : White , Miles : 86,681', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAKmIDmpGw8t0lTZYCZWGwhncc6tapdKR4J4BiLPT7HHvrJTc0tEWJ9LNj&s=10' },
+            { id: 7, brand: 'HONDA', model: 'HONDA PILOT ', year: 2018, price: 16895, specs: 'Color : White , Miles : 88,743', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdDYpmYb07i8DmHFlpFXKepFD6EBTlo62OHiB67aiQ6NfPQ9M6dQlwMTPsvt7DaDkkcnIL7bGDYFFx2fgFykm94n_1fgDILzkFXJrw4eQ&s=10' },
+            { id: 8, brand: 'HONDA', model: 'HONDA PILOT ', year: 2020, price: 21685, specs: 'Color : Gray , Miles : 73,569', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdDYpmYb07i8DmHFlpFXKepFD6EBTlo62OHiB67aiQ6NfPQ9M6dQlwMTPsvt7DaDkkcnIL7bGDYFFx2fgFykm94n_1fgDILzkFXJrw4eQ&s=10' },
+            { id: 9, brand: 'HONDA', model: 'HONDA  CIVIC', year: 2021, price: 18015, specs: 'Color : White , Miles : 55,820', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShSsmhXSXOM6lLy4M9O07KmtDKSpx3ti07VFVTPyvr73B9b59bFKn-3tYsUCKtle3Xrwh0WSOzBfYa4duQ4p4rYX-Y0AV4CVgjCvds6A&s=10' },
+            { id: 10, brand: 'HONDA', model: 'HONDA  HR-V', year: 2021, price: 16170, specs: 'Color : Silver , Miles : 45,856', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSbA4saAXOJmtAKM340zphYgppVulsJYinqzWtnAWbsg&s=10' },
+            { id: 11, brand: 'HYUNDAI', model: 'HYUNDAI TUCSON', year: 2023, price: 19705, specs: 'Color : White , Miles : 39,602', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlsZDCani4jrx9zV46VN7BBVnSqgOmc4uSjVOF3rVYLA&s=10' },
+            { id: 12, brand: 'HYUNDAI', model: 'HYUNDAI TUCSON', year: 2023, price: 19470, specs: 'Color : Black , Miles : 70,408', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlsZDCani4jrx9zV46VN7BBVnSqgOmc4uSjVOF3rVYLA&s=10' },
+            { id: 13, brand: 'HYUNDAI', model: 'HYUNDAI ELANTRA', year: 2023, price: 15965, specs: 'Color : Gray , Miles : 35,720', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlHC1YMCoOfKcV41s1uT0B6rweOJ95DcCshMAhl_1cYQ&s=10' },
+            { id: 14, brand: 'HYUNDAI', model: 'HYUNDAI PALISADE', year: 2020, price: 21945, specs: 'Color : Black , Miles : 63,652', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQng28B1wE6Ub1gxpKs8rZzTvzQRswRGO0M5DYOp90JUQ&s=10' },
+            { id: 15, brand: 'JEEP', model: 'JEEP COMPASS', year: 2022, price: 18050, specs: 'Color : Red , Miles : 44,434', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrWvnDVQ_HdUPEFZ21peOozEyOaSXToLJw0HGVDw2SVg&s=10' },
+            { id: 16, brand: 'KIA', model: 'KIA SELTOS', year: 2021, price: 16770, specs: 'Color : Black , Miles : 51,492', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwBpsNpOOcd1qyJlDaLHAkIQOMNgJ_PEk255vuH_XxmA&s=10' },
+            { id: 17, brand: 'KIA', model: 'KIA FORTE', year: 2023, price: 17340, specs: 'Color : White , Miles : 38,019', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6_qkGF9r32eFfm6YKL2J5PoS0gyDDmUNFQ4_ZjSFTEA&s=10' },
+            { id: 18, brand: 'KIA', model: 'KIA SORENTO', year: 2023, price: 23410, specs: 'Color : Gray , Miles : 29,624', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnglmuG-sVE3gdXs3BC_w_iNgs5wFWHMdh-IjckOB9hQ&s=10' },
+            { id: 19, brand: 'MAZDA', model: 'MAZDA CX-5', year: 2018, price: 16315, specs: 'Color : Blue , Miles : 52,969', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD9ZeZEH0aqotOck8P5jqpXFpiH9hZGOZi1hwg9pdPsw&s=10' },
+            { id: 20, brand: 'MAZDA', model: 'MAZDA CX-50', year: 2023, price: 21545, specs: 'Color : Blue , Miles : 54,408', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS63hjPBN3HFBWzK2Bs6bUD-j4R7bUKyITNb-eg_SMQng&s=10' },
+            { id: 21, brand: 'NISSAN', model: 'NISSAN SENTRA', year: 2022, price: 17020, specs: 'Color : White , Miles : 14,704', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDRjeuZiQBhY1UFM0zGbaMuOCWOG0KX8ylR1pVFyrKIQ&s=10' },
+            { id: 22, brand: 'NISSAN', model: 'NISSAN ROGUE', year: 2019, price: 10065, specs: 'Color : Gray , Miles : 64,474', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST7FwTMzUU3pTQZIDS6t9AJDFFqZUwrmgR8YMv0jR2ww&s=10' },
+            { id: 23, brand: 'NISSAN', model: 'NISSAN SENTRA', year: 2021, price: 11900, specs: 'Color : Blue , Miles : 53,532', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDRjeuZiQBhY1UFM0zGbaMuOCWOG0KX8ylR1pVFyrKIQ&s=10' },
+        ];
+
+        const carsGrid = document.getElementById('carsGrid');
+        const searchInput = document.getElementById('searchInput');
+
+        function formatPrice(num) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
+        }
+
+        function displayCars(cars) {
+            carsGrid.innerHTML = '';
+            if (cars.length === 0) {
+                carsGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;"> No search results found</p>';
+                return;
+            }
+            cars.forEach(car => {
+                carsGrid.innerHTML += `
+                    <div class="car-card">
+                        <div class="car-image" style="background-image: url('${car.image}')"></div>
+                        <div class="car-info">
+                            <h3 class="car-title">${car.model}</h3>
+                            <div class="car-details"><span> Model: ${car.year}</span><span>Make: ${car.brand}</span></div>
+                            <div class="car-price">${formatPrice(car.price)}</div>
+                            <button class="view-btn" onclick="openModal(${car.id})"> show details </button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function filterCars(brand, event) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            displayCars(brand === 'all' ? carsData : carsData.filter(c => c.brand === brand));
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            displayCars(carsData.filter(c => c.model.toLowerCase().includes(term) || c.brand.includes(term)));
+        });
+
+        function openModal(id) {
+            const car = carsData.find(c => c.id === id);
+            if (car) {
+                document.getElementById('modalTitle').innerText = car.model;
+                document.getElementById('modalYear').innerText = ` Year : ${car.year}`;
+                document.getElementById('modalSpecs').innerText = `Specifications : ${car.specs}`;
+                document.getElementById('modalPrice').innerText = `Price: ${formatPrice(car.price)}`;
+                document.getElementById('carModal').style.display = 'flex';
+            }
+        }
+
+        function closeModal() { document.getElementById('carModal').style.display = 'none'; }
+        window.onclick = function (e) { if (e.target == document.getElementById('carModal')) closeModal(); }
+
+        displayCars(carsData);
+    </script>
+</body>
+
+</html>
